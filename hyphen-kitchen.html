@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hyphen-Kitchen | Pickles Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fff9f3;
+      color: #333;
+    }
+    header {
+      background: #362c2a;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 { margin: 0; }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+    .product {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .product img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .btn {
+      background: #ff6600;
+      border: none;
+      padding: 10px 20px;
+      color: white;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .cart {
+      padding: 20px;
+      background: #fafafa;
+    }
+    .order-form {
+      margin-top: 20px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #362c2a;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Hyphen-Kitchen</h1>
+  <p>Authentic Veg & Non-Veg Pickles</p>
+</header>
+
+<main>
+  <section class="products">
+    <div class="product">
+      <img src="https://via.placeholder.com/300x160?text=Mango+Pickle" alt="Mango Pickle">
+      <h3>Mango Pickle</h3>
+      <p>₹120</p>
+      <button class="btn" onclick="addToCart('Mango Pickle', 120)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/300x160?text=Chicken+Pickle" alt="Chicken Pickle">
+      <h3>Chicken Pickle</h3>
+      <p>₹180</p>
+      <button class="btn" onclick="addToCart('Chicken Pickle', 180)">Add to Cart</button>
+    </div>
+    <div class="product">
+      <img src="https://via.placeholder.com/300x160?text=Prawns+Pickle" alt="Prawns Pickle">
+      <h3>Prawns Pickle</h3>
+      <p>₹200</p>
+      <button class="btn" onclick="addToCart('Prawns Pickle', 200)">Add to Cart</button>
+    </div>
+  </section>
+
+  <section class="cart">
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>Total: ₹<span id="total">0</span></strong></p>
+
+    <div class="order-form">
+      <h3>Send Order</h3>
+      <form action="https://formsubmit.co/hyphenkitchen@gmail.com" method="POST" onsubmit="return prepareOrder()">
+        <input type="hidden" name="_subject" value="New Order from Hyphen-Kitchen" />
+        <input type="hidden" name="Order Details" id="orderDetails" />
+        <label>Name:<br><input type="text" name="Customer Name" required></label><br><br>
+        <label>Email:<br><input type="email" name="Customer Email" required></label><br><br>
+        <label>Delivery Address:<br><textarea name="Address" required></textarea></label><br><br>
+        <button class="btn" type="submit">Submit Order</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  &copy; 2025 Hyphen-Kitchen | All Rights Reserved
+</footer>
+
+<script>
+  let cart = [];
+  let total = 0;
+
+  function addToCart(item, price) {
+    cart.push({ item, price });
+    total += price;
+    updateCart();
+  }
+
+  function updateCart() {
+    const list = document.getElementById('cart-items');
+    list.innerHTML = '';
+    cart.forEach(p => {
+      const li = document.createElement('li');
+      li.textContent = `${p.item} - ₹${p.price}`;
+      list.appendChild(li);
+    });
+    document.getElementById('total').textContent = total;
+  }
+
+  function prepareOrder() {
+    let summary = '';
+    cart.forEach(p => {
+      summary += `${p.item} - ₹${p.price}\n`;
+    });
+    summary += `\nTotal: ₹${total}`;
+    document.getElementById('orderDetails').value = summary;
+    return true;
+  }
+</script>
+
+</body>
+</html>
